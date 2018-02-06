@@ -12,12 +12,12 @@ def load_all_data(assets, end_date, start_date, max_size=50,prefix=None):
     file_low = 'etf_data_low.csv'
     file_high = 'etf_data_high.csv'
     file_adj_close = 'etf_data_adj_close.csv'
-    if prefix is not None:
-        file_open = prefix+'_'+file_open
-        file_close = prefix+'_'+file_close
-        file_low = prefix+'_'+file_low
-        file_high = prefix+'_'+file_high
-        file_adj_close = prefix+'_'+file_adj_close
+    if prefix != '':
+        file_open = prefix+file_open
+        file_close = prefix+file_close
+        file_low = prefix+file_low
+        file_high = prefix+file_high
+        file_adj_close = prefix+file_adj_close
     panel_data = None
     if len(assets) > max_size:
         times = int(len(assets) / max_size)
@@ -86,16 +86,16 @@ def load_sub_assets_list(assets, max_size, times):
     return sub_assets
 
 
-prefix = 'us_lse'
-if prefix is not None:
-    with open('us_etfs_lse.txt', 'r') as fd:
+prefix = 'xetra_'
+if prefix != '':
+    with open(prefix+'etfs.txt', 'r') as fd:
         etf_list = list(fd.read().splitlines())
 
     etf_list = list(set(etf_list))
     start_date = '1993-01-01'
     end_date = '2017-12-31'
     load_all_data(etf_list, end_date, start_date, max_size=5,prefix=prefix)
-    data = pandas.read_csv(prefix+'_etf_data_open.csv')
+    data = pandas.read_csv(prefix+'etf_data_open.csv')
     print(data.keys())
     print(data.index)
 

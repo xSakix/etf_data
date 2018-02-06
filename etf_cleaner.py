@@ -2,16 +2,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-prefix = 'us_lse_'
+prefix = 'xetra_'
 
-df_open = pd.read_csv(prefix+'etf_data_open.csv')
-df_close = pd.read_csv(prefix+'etf_data_close.csv')
-df_high = pd.read_csv(prefix+'etf_data_high.csv')
-df_low = pd.read_csv(prefix+'etf_data_low.csv')
-df_adj_close = pd.read_csv(prefix+'etf_data_adj_close.csv')
+df_open = pd.read_csv(prefix + 'etf_data_open.csv')
+df_close = pd.read_csv(prefix + 'etf_data_close.csv')
+df_high = pd.read_csv(prefix + 'etf_data_high.csv')
+df_low = pd.read_csv(prefix + 'etf_data_low.csv')
+df_adj_close = pd.read_csv(prefix + 'etf_data_adj_close.csv')
 
-if prefix is None:
-    with open('us_etfs_lse.txt', 'r') as fd:
+if prefix == '':
+    with open('etfs.txt', 'r') as fd:
         etfs = list(fd.read().splitlines())
 
     etfs = list(set(etfs))
@@ -30,18 +30,18 @@ if prefix is None:
         df_adj_close.loc[df_adj_close.Date <= inception_date, etf] = 0.
         df_close.loc[df_close.Date <= inception_date, etf] = 0.
 
-df_open.fillna(0.,inplace=True)
-df_high.fillna(0.,inplace=True)
-df_low.fillna(0.,inplace=True)
-df_adj_close.fillna(0.,inplace=True)
-df_close.fillna(0.,inplace=True)
+df_open.fillna(0., inplace=True)
+df_high.fillna(0., inplace=True)
+df_low.fillna(0., inplace=True)
+df_adj_close.fillna(0., inplace=True)
+df_close.fillna(0., inplace=True)
 
-if prefix is not None:
-    df_open.to_csv(prefix+'etf_data_open.csv')
-    df_close.to_csv(prefix+'etf_data_close.csv')
-    df_high.to_csv(prefix+'etf_data_high.csv')
-    df_low.to_csv(prefix+'etf_data_low.csv')
-    df_adj_close.to_csv(prefix+'etf_data_adj_close.csv')
+if prefix != '':
+    df_open.to_csv(prefix + 'etf_data_open.csv')
+    df_close.to_csv(prefix + 'etf_data_close.csv')
+    df_high.to_csv(prefix + 'etf_data_high.csv')
+    df_low.to_csv(prefix + 'etf_data_low.csv')
+    df_adj_close.to_csv(prefix + 'etf_data_adj_close.csv')
 else:
     df_open.to_csv('etf_data_open.csv')
     df_close.to_csv('etf_data_close.csv')
