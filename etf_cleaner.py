@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-prefix = 'xetra_'
+prefix = 'lse_'
 
 df_open = pd.read_csv(prefix + 'etf_data_open.csv')
 df_close = pd.read_csv(prefix + 'etf_data_close.csv')

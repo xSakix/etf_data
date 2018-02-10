@@ -86,14 +86,14 @@ def load_sub_assets_list(assets, max_size, times):
     return sub_assets
 
 
-prefix = 'xetra_'
+prefix = 'lse_'
 if prefix != '':
     with open(prefix+'etfs.txt', 'r') as fd:
         etf_list = list(fd.read().splitlines())
 
     etf_list = list(set(etf_list))
     start_date = '1993-01-01'
-    end_date = '2017-12-31'
+    end_date = '2018-02-09'
     load_all_data(etf_list, end_date, start_date, max_size=5,prefix=prefix)
     data = pandas.read_csv(prefix+'etf_data_open.csv')
     print(data.keys())
