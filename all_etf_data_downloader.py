@@ -86,7 +86,7 @@ def load_sub_assets_list(assets, max_size, times):
     return sub_assets
 
 
-prefix = 'lse_'
+prefix = 'xetra_'
 if prefix != '':
     with open(prefix+'etfs.txt', 'r') as fd:
         etf_list = list(fd.read().splitlines())
