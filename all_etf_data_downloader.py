@@ -52,7 +52,8 @@ def load_panel_data_many(data_source, end_date, panel_data, start_date, sub_asse
 
 def load_sub_set(adj_close, close, data_source, end_date,  high, low, open, panel_data, start_date, sub):
     err = True
-    while (err):
+    err_counter = 5
+    while (err and err_counter > 0):
         try:
             if panel_data is None:
                 panel_data = data_reader.DataReader(sub, data_source, start_date, end_date)
@@ -69,7 +70,9 @@ def load_sub_set(adj_close, close, data_source, end_date,  high, low, open, pane
                 low = low.join(panel_data.ix['Low'])
                 adj_close = adj_close.join(panel_data.ix['Adj Close'])
             err = False
-        except RemoteDataError:
+        except:
+            print('failed to read:'+str(sub))
+            err_counter -= 1
             err = True
 
     return adj_close, close, high, low, open,panel_data
@@ -86,14 +89,14 @@ def load_sub_assets_list(assets, max_size, times):
     return sub_assets
 
 
-prefix = 'xetra_'
+prefix = 'lse_'
 if prefix != '':
     with open(prefix+'etfs.txt', 'r') as fd:
         etf_list = list(fd.read().splitlines())
 
     etf_list = list(set(etf_list))
     start_date = '1993-01-01'
-    end_date = '2018-02-09'
+    end_date = '2018-04-10'
     load_all_data(etf_list, end_date, start_date, max_size=5,prefix=prefix)
     data = pandas.read_csv(prefix+'etf_data_open.csv')
     print(data.keys())
