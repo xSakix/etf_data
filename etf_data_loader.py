@@ -16,6 +16,12 @@ def load_data(assets, start_date, end_date):
 def load_data_from_file(file, assets, start_date, end_date):
     if not os.path.isfile(file):
         file = '../etf_data/' + file
+    if not os.path.isfile(file):
+        file = '../../etf_data/' + file
+    if not os.path.isfile(file):
+        file = '../../../etf_data/' + file
+
+    print('Loading file ',file)
 
     df = pd.read_csv(file)
     df = df.loc[df.Date > start_date]
@@ -37,10 +43,49 @@ def load_data_from_file(file, assets, start_date, end_date):
 
     return df
 
+def load_data_from_file2(file, assets, start_date, end_date):
+    if not os.path.isfile(file):
+        file = '../etf_data/' + file
+    if not os.path.isfile(file):
+        file = '../../etf_data/' + file
+    if not os.path.isfile(file):
+        file = '../../../etf_data/' + file
+
+    print('Loading file ',file)
+
+    df = pd.read_csv(file)
+    df = df.loc[df.date > start_date]
+    df = df.loc[df.date < end_date]
+    df = df[assets]
+
+    indexes = []
+
+    for key in df.keys():
+        for i in df[key].index:
+            val = df[key][i]
+            try:
+                if np.isnan(val) and not indexes.__contains__(i):
+                    indexes.append(i)
+            except TypeError:
+                if not indexes.__contains__(i):
+                    indexes.append(i)
+    df.drop(indexes, inplace=True)
+
+    return df
+
+
+
 
 def load_all_data_from_file(file, start_date, end_date):
     if not os.path.isfile(file):
         file = '../etf_data/' + file
+    if not os.path.isfile(file):
+        file = '../' + file
+    if not os.path.isfile(file):
+        file = '../' + file
+
+    print('Loading file ',file)
+
 
     df = pd.read_csv(file)
     df = df.loc[df.Date > start_date]
@@ -60,6 +105,24 @@ def load_all_data_from_file(file, start_date, end_date):
     # df.drop(indexes, inplace=True)
 
     return df
+
+def load_all_data_from_file2(file, start_date, end_date):
+    if not os.path.isfile(file):
+        file = '../etf_data/' + file
+    if not os.path.isfile(file):
+        file = '../' + file
+    if not os.path.isfile(file):
+        file = '../' + file
+
+    print('Loading file ',file)
+
+
+    df = pd.read_csv(file)
+    df = df.loc[df.date > start_date]
+    df = df.loc[df.date < end_date]
+
+    return df
+
 
 
 def load_all_data(start_date, end_date):

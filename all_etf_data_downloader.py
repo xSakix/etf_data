@@ -1,9 +1,7 @@
+import traceback
+
 from pandas_datareader import data as data_reader
 import pandas
-import os
-
-from pandas_datareader._utils import RemoteDataError
-
 
 def load_all_data(assets, end_date, start_date, max_size=50,prefix=None):
     data_source = 'yahoo'
@@ -70,8 +68,9 @@ def load_sub_set(adj_close, close, data_source, end_date,  high, low, open, pane
                 low = low.join(panel_data.ix['Low'])
                 adj_close = adj_close.join(panel_data.ix['Adj Close'])
             err = False
-        except:
-            print('failed to read:'+str(sub))
+        except Exception as e:
+            traceback.print_exc()
+            print('failed to read:'+str(sub)+' because: '+str(e))
             err_counter -= 1
             err = True
 
@@ -89,14 +88,14 @@ def load_sub_assets_list(assets, max_size, times):
     return sub_assets
 
 
-prefix = 'lse_'
+prefix = 'mil_'
 if prefix != '':
     with open(prefix+'etfs.txt', 'r') as fd:
         etf_list = list(fd.read().splitlines())
 
     etf_list = list(set(etf_list))
     start_date = '1993-01-01'
-    end_date = '2018-04-10'
+    end_date = '2018-06-01'
     load_all_data(etf_list, end_date, start_date, max_size=5,prefix=prefix)
     data = pandas.read_csv(prefix+'etf_data_open.csv')
     print(data.keys())
@@ -109,7 +108,7 @@ else:
     print(etfs)
     start_date = min(inception.inc_date.values)
     print(start_date)
-    end_date = '2017-12-31'
+    end_date = '2018-05-16'
     print(end_date)
     load_all_data(etfs, end_date, start_date, max_size=5)
     data = pandas.read_csv('etf_data_open.csv')
