@@ -1,10 +1,10 @@
-from yahoo_fin.stock_info import get_data
+from yahoo_fin.stock_info import get_data,build_url
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
-prefix = 'mil_'
+prefix = 'btc_'
 with open(prefix + 'etfs.txt', 'r') as fd:
     asset_list = list(fd.read().splitlines())
 
@@ -15,10 +15,15 @@ if os.path.isfile(file):
 else:
     df = pd.DataFrame()
 
-start_date = '1993-01-01'
-end_date = '2018-06-15'
+start_date = '2011-08-07'
+end_date = '2018-06-20'
 
 counter = 0
+
+for ticker in asset_list:
+    site = build_url(ticker , start_date , end_date)
+    print(site)
+
 
 for ticker in asset_list:
     print('\rprocessed %d/%d: ' % (counter, len(asset_list)), end='')
