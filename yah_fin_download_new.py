@@ -4,19 +4,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
-prefix = 'btc_'
+prefix = 'mil_'
 with open(prefix + 'etfs.txt', 'r') as fd:
     asset_list = list(fd.read().splitlines())
 
 file = prefix + 'etf_data_adj_close.csv'
 
-if os.path.isfile(file):
-    df = pd.read_csv(file)
-else:
-    df = pd.DataFrame()
+df = pd.DataFrame()
 
 start_date = '2011-08-07'
-end_date = '2018-06-20'
+end_date = '2018-07-04'
 
 counter = 0
 
